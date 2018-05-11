@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Link from 'gatsby-link'
-import Geolocation from '../components/location'
+import Tip from '../components/suggestedTip'
 
 // Please note that you can use https://github.com/dotansimha/graphql-code-generator
 // to generate all types from graphQL schema
@@ -27,7 +27,7 @@ export default class extends React.Component<IndexPageProps, void> {
           <strong>{this.props.data.site.siteMetadata.title}</strong> site.
         </p>
         <p>Now go build something great.</p>
-        <Geolocation/>
+        <Tip/>
       </div>
     )
   }

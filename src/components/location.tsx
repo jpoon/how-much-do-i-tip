@@ -1,12 +1,5 @@
 import * as React from 'react'
 
-interface LocationState {
-  loaded: boolean,
-  coordinates: Coordinates,
-  countryCode: string,
-  error: string,
-}
-
 const geocode = {
   baseUrl: "http://ws.geonames.org/countryCodeJSON",
   apiKey: "jasonpoon"
@@ -17,24 +10,26 @@ const defaultPositionOptions: PositionOptions = {
   maximumAge: 0
 };
 
-export default class extends React.Component<any, any> {
+interface LocationProps {
+  onLocationUpdate: (countryCode?: string, err?: string) => void;
+}
+
+export default class extends React.Component<LocationProps, any> {
   constructor(props: any){
     super(props);
 
-    this.state = {
-      loaded: false,
-    }
+    this.state = { loaded: false }
   }
 
   _getCoordinates(options: PositionOptions = defaultPositionOptions) : Promise<Coordinates> {
     return new Promise((resolve, reject) => {
       if (!navigator || !navigator.geolocation) {
-        reject(new Error('Not Supported'));
+        reject(new Error('Geolocation: Not Supported'));
       }
       
       navigator.geolocation.getCurrentPosition(
         (pos) => { resolve(pos.coords); }, 
-        () => { reject (new Error('Permission denied')); },
+        () => { reject(new Error('Geolocation: Permission denied')); },
         options
       );
     });
@@ -53,19 +48,17 @@ export default class extends React.Component<any, any> {
 
   componentDidMount() {
     this._getCoordinates()
-      .then(coords => {
-        this.setState({
-          coordinates: coords
-        })
-        return this._getCountryCode(coords)
-      })
-      .then(location => {
+      .then(coords => this._getCountryCode(coords))
+      .then(location => location.countryCode)
+      .then(countryCode => {
+        this.props.onLocationUpdate(countryCode)
         this.setState({
           loaded: true,
-          countryCode: location.countryCode
+          countryCode: countryCode
         })
       })
       .catch(err => {
+        this.props.onLocationUpdate(null, err)
         this.setState({
           loaded: true,
           error: err
@@ -80,9 +73,8 @@ export default class extends React.Component<any, any> {
 
     return (
       <div>
-        <div>Latitude: <span>{this.state.coordinates.latitude}</span></div>
-        <div>Longitude: <span>{this.state.coordinates.longitude}</span></div>
         <div>CountryCode: <span>{this.state.countryCode}</span></div>
+        <div>Error: <span>{this.state.error}</span></div>
       </div>
     );
   }
