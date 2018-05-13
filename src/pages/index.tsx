@@ -27,7 +27,7 @@ export default class extends React.Component<IndexPageProps, any> {
 
   constructor(props: IndexPageProps) {
     super(props)
-    this.state = {}
+    this.state = { countryCode: "CA" }
   }
 
   _getCurrentPosition(
@@ -52,7 +52,7 @@ export default class extends React.Component<IndexPageProps, any> {
     }&username=${this.geocode.apiKey}`
     return fetch(url).then(response => response.json())
   }
-
+ 
   componentDidMount() {
     this._getCurrentPosition()
       .then(position => this._getCountryCode(position))
@@ -68,19 +68,11 @@ export default class extends React.Component<IndexPageProps, any> {
       return <div />
     }
 
-    if (!this.state.countryCode) {
-      return <div />
-    }
-
     return (
-      <div
-        style={{
-          flex: 1,
-          justifyContent: 'center',
-          alignItems: 'center',
-          textAlign: 'center',
-          border: '1px solid orange',
-        }}
+      <div style={{
+        backgroundColor: 'white',
+        padding: '12vh',
+      }}
       >
         <SuggestedTip countryCode={this.state.countryCode} />
       </div>

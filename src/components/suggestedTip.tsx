@@ -12,10 +12,11 @@ export default class extends React.Component<SuggestedTipProps, any> {
     this.state = {}
   }
 
-  componentDidMount() {
+  _getTipForCountryCode(countryCode: string) {
     let country = this.countryCodeMap.find(
-      (c: any) => c.countryCode === this.props.countryCode
+      (c: any) => c.countryCode === countryCode
     )
+
     if (!country) {
       this.setState({
         error: `SuggestedTip: Unable to find country with country code: ${
@@ -24,15 +25,25 @@ export default class extends React.Component<SuggestedTipProps, any> {
       })
       return
     }
+
     this.setState({ countryName: country.name, tip: country.tip.percentage })
+  }
+
+  componentWillReceiveProps(nextProps: SuggestedTipProps) {
+    if (this.props.countryCode != nextProps.countryCode) {
+      this._getTipForCountryCode(nextProps.countryCode);
+    }
+  }
+
+  componentDidMount() {
+    this._getTipForCountryCode(this.props.countryCode);
   }
 
   render() {
     return (
       <div>
         <span>
-          In {this.state.countryName}, the suggested tip amount is{' '}
-          {this.state.tip}.
+          In <b>{this.state.countryName}</b>, the suggested tip amount is <b>{this.state.tip}%</b>.
         </span>
       </div>
     )

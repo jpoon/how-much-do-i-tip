@@ -11,7 +11,21 @@ interface DefaultLayoutProps extends React.HTMLProps<HTMLDivElement> {
   children: any
 }
 
-class DefaultLayout extends React.PureComponent<DefaultLayoutProps, void> {
+class DefaultLayout extends React.PureComponent<DefaultLayoutProps, any> {
+  constructor(props: DefaultLayoutProps) {
+    super(props)
+    this.state = { color: [50, 100, 150] }
+  }
+
+  componentDidMount() {
+    let color = this._generateColor();
+    document.body.style.background = color;
+  };
+
+  _generateColor () {
+    return '#' +  Math.random().toString(16).substr(-6);
+  }
+
   public render() {
     return (
       <div>
@@ -24,9 +38,10 @@ class DefaultLayout extends React.PureComponent<DefaultLayoutProps, void> {
         />
         <div
           style={{
-            margin: '0 auto',
-            maxWidth: 900,
-            padding: '0px 1.5rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: '80vh',
           }}
         >
           {this.props.children()}
