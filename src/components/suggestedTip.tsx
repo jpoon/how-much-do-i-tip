@@ -1,35 +1,40 @@
 import * as React from 'react'
-import Location from './location'
 
-export default class extends React.Component<any, any> {
-  constructor(props: any){
-    super(props);
-    this.state = { };
-  }
+interface SuggestedTipProps {
+  countryCode: string
+}
 
-  _getTipForCountryCode(countryCode: string) {
-    return fetch('../data/countryCodes.json')
-      .then(res => res.json())
-      .then((data) => {
-        console.log('data:', data);
-      })
-  }
+export default class extends React.Component<SuggestedTipProps, any> {
+  countryCodeMap = require('../../data/countryCodeMap.json')
 
-  onLocationUpdated(countryCode?: string, err?: string) {
-    console.log(countryCode)
-    this.setState({ countryCode: countryCode, error: err })
+  constructor(props: SuggestedTipProps) {
+    super(props)
+    this.state = {}
   }
 
   componentDidMount() {
+    let country = this.countryCodeMap.find(
+      (c: any) => c.countryCode === this.props.countryCode
+    )
+    if (!country) {
+      this.setState({
+        error: `SuggestedTip: Unable to find country with country code: ${
+          this.state.countryCode
+        }`,
+      })
+      return
+    }
+    this.setState({ countryName: country.name, tip: country.tip.percentage })
   }
 
   render() {
     return (
       <div>
-        <Location onLocationUpdate={this.onLocationUpdated.bind(this)} />
-        Hello {this.state.countryCode}
+        <span>
+          In {this.state.countryName}, the suggested tip amount is{' '}
+          {this.state.tip}.
+        </span>
       </div>
-    );
+    )
   }
 }
-
