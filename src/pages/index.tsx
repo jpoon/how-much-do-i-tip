@@ -2,7 +2,7 @@ import * as React from 'react'
 import Link from 'gatsby-link'
 import SuggestedTip from '../components/suggestedTip'
 import getCountryCode from '../util/getCountryCode'
-const queryString = require('query-string');
+let qs = require('qs')
 
 interface IndexPageProps {
   data: {
@@ -11,7 +11,7 @@ interface IndexPageProps {
         title: string
       }
     }
-  },
+  }
   location: {
     search: string
   }
@@ -47,10 +47,12 @@ export default class extends React.Component<IndexPageProps, any> {
   }
 
   componentDidMount() {
-    let countryCode = queryString.parse(this.props.location.search).countryCode;
+    let countryCode = qs.parse(this.props.location.search, {
+      ignoreQueryPrefix: true,
+    }).countryCode
     if (countryCode) {
-        this.setState({ isLoaded: true, countryCode: countryCode })
-        return
+      this.setState({ isLoaded: true, countryCode: countryCode })
+      return
     }
 
     this._getCurrentPosition()

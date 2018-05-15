@@ -6,7 +6,6 @@
     "gatsby-link": "1.6.44",
     "gatsby-plugin-react-helmet": "2.0.11",
     "gatsby-plugin-typescript": "1.4.20",
-    "query-string": "^6.1.0",
     "react-geolocated": "2.4.0",
     "react-helmet": "5.2.0"
   },
@@ -16,8 +15,9 @@
   "license": "MIT",
   "main": "n/a",
   "scripts": {
-    "build": "gatsby build --prefix-paths",
+    "build": "gatsby build",
     "develop": "gatsby develop",
+    "deploy": "gatsby build --prefix-paths && gh-pages -d public -b gh-pages",
     "format": "prettier --parser typescript --trailing-comma es5 --no-semi --single-quote --write \"src/**/*.ts*\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -27,6 +27,7 @@
     "@types/react-dom": "16.0.5",
     "@types/react-helmet": "5.0.6",
     "gatsby": "1.9.261",
+    "gh-pages": "1.1.0",
     "prettier": "1.12.1"
   }
 }

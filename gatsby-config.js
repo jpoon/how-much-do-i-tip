@@ -6,4 +6,5 @@ module.exports = {
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-typescript`
   ],
+  pathPrefix: "/how-much-do-i-tip"
 }

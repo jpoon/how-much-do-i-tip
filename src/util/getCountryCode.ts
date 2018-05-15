@@ -7,14 +7,16 @@ interface GeonamesCountryCode {
 }
 
 const geocode = {
-  baseUrl: 'http://api.geonames.org/countryCodeJSON',
+  baseUrl: 'https://secure.geonames.org/countryCodeJSON',
   apiKey: 'jasonpoon',
 }
 
 export default function(
   coordinates: Coordinates
 ): Promise<GeonamesCountryCode> {
-  console.log( `Geocoding lat=${coordinates.latitude}, lng=${coordinates.longitude}.`)
+  console.log(
+    `Geocoding lat=${coordinates.latitude}, lng=${coordinates.longitude}.`
+  )
   var url = `${geocode.baseUrl}?lat=${coordinates.latitude}&lng=${
     coordinates.longitude
   }&username=${geocode.apiKey}`

@@ -8,8 +8,8 @@ interface CountryToTipMap {
   name: string
   countryCode: string
   tip: {
-    restaurant: string,
-    default: string, 
+    restaurant: string
+    default: string
   }
 }
 
@@ -17,8 +17,8 @@ export default class extends React.Component<SuggestedTipProps, any> {
   countryCodeMap: CountryToTipMap[] = require('../../data/countryCodeMap.json')
 
   constructor(props: SuggestedTipProps) {
-    super(props);
-    this.state = { tip: "" };
+    super(props)
+    this.state = { tip: '' }
   }
 
   _getTipForCountryCode(countryCode: string) {
@@ -51,34 +51,42 @@ export default class extends React.Component<SuggestedTipProps, any> {
       return <p>{this.state.error}</p>
     }
 
-    var rows : JSX.Element[] = []
+    var rows: JSX.Element[] = []
     Object.keys(this.state.tip).forEach(key => {
       if (key != 'default') {
-        rows.push(<tr key={key}><td >{key}</td><td>{this.state.tip[key]}</td></tr>);
+        rows.push(
+          <tr key={key}>
+            <td>{key}</td>
+            <td>{this.state.tip[key]}</td>
+          </tr>
+        )
       }
     })
 
     return (
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexWrap: 'wrap',
-      }}>
+      <div
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          flexWrap: 'wrap',
+        }}
+      >
         <p>
-          In <b>{this.state.countryName}</b>, tipping is generally {' '} <b>{this.state.tip.default}</b>.
-          { rows.length > 0 && <span> Other guidelines:</span> }
+          In <b>{this.state.countryName}</b>, tipping is generally{' '}
+          <b>{this.state.tip.default}</b>.
+          {rows.length > 0 && <span> Other guidelines:</span>}
         </p>
 
-        {rows.length > 0 &&
-          <table style={{
-            width: '50vh',
-          }}>
-            <tbody>
-              {rows}
-            </tbody>
+        {rows.length > 0 && (
+          <table
+            style={{
+              width: '50vh',
+            }}
+          >
+            <tbody>{rows}</tbody>
           </table>
-        }
+        )}
       </div>
     )
   }
