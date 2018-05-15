@@ -18,8 +18,7 @@ class DefaultLayout extends React.PureComponent<DefaultLayoutProps, any> {
   }
 
   componentDidMount() {
-    let color = this._generateColor()
-    document.body.style.background = color
+    document.body.style.background = this._generateColor()
   }
 
   _generateColor() {

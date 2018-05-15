@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Link from 'gatsby-link'
 import SuggestedTip from '../components/suggestedTip'
-import fetchWithTimeout from '../util/fetchWithTimeout'
+import getCountryCode from '../util/getCountryCode'
 
 interface IndexPageProps {
   data: {
@@ -19,10 +19,6 @@ export default class extends React.Component<IndexPageProps, any> {
     timeout: 10000,
     maximumAge: 0,
   }
-  geocode = {
-    baseUrl: 'http://ws.geonames.org/countryCodeJSON',
-    apiKey: 'jasonpoon',
-  }
 
   constructor(props: IndexPageProps) {
     super(props)
@@ -32,6 +28,7 @@ export default class extends React.Component<IndexPageProps, any> {
   _getCurrentPosition(
     options: PositionOptions = this.defaultPositionOptions
   ): Promise<Coordinates> {
+    console.log(`Retrieving current geolocation.`)
     return new Promise((resolve, reject) => {
       if (!navigator || !navigator.geolocation) {
         reject(new Error('Geolocation: Not Supported'))
@@ -45,25 +42,23 @@ export default class extends React.Component<IndexPageProps, any> {
     })
   }
 
-  _getCountryCode(coordinates: Coordinates) {
-    var url = `${this.geocode.baseUrl}?lat=${coordinates.latitude}&lng=${
-      coordinates.longitude
-    }&username=${this.geocode.apiKey}`
-    return fetchWithTimeout(url)
-  }
-
   componentDidMount() {
     this._getCurrentPosition()
-      .then(position => this._getCountryCode(position))
-      .then(location => location.countryCode)
-      .then(countryCode =>
-        this.setState({ isLoaded: true, countryCode: countryCode })
-      )
+      .then(position => getCountryCode(position))
+      .then(location => {
+        this.setState({ isLoaded: true, countryCode: location.countryCode })
+      })
       .catch(err => {
-        console.error(err)
+        let errMsg = 'Unable to retrieve current location.'
+        if (err instanceof Error) {
+          let error = err as Error
+          errMsg += ` ${error.message}`
+        }
+
+        console.error(errMsg)
         this.setState({
           isLoaded: true,
-          error: 'Unable to retrieve current location.',
+          error: errMsg,
         })
       })
   }
@@ -72,6 +67,7 @@ export default class extends React.Component<IndexPageProps, any> {
     if (!this.state.isLoaded) {
       return <p>Grabbing your location and local tip etiquette...</p>
     }
+
     if (this.state.error) {
       return <p>{this.state.error}</p>
     }
