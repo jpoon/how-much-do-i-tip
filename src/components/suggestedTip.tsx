@@ -8,7 +8,8 @@ interface CountryToTipMap {
   name: string
   countryCode: string
   tip: {
-    restaurant: number
+    restaurant: number,
+    default: number
   }
 }
 
@@ -16,8 +17,8 @@ export default class extends React.Component<SuggestedTipProps, any> {
   countryCodeMap: CountryToTipMap[] = require('../../data/countryCodeMap.json')
 
   constructor(props: SuggestedTipProps) {
-    super(props)
-    this.state = {}
+    super(props);
+    this.state = { tip: "" };
   }
 
   _getTipForCountryCode(countryCode: string) {
@@ -32,7 +33,7 @@ export default class extends React.Component<SuggestedTipProps, any> {
       return
     }
 
-    this.setState({ countryName: country.name, tip: country.tip.restaurant })
+    this.setState({ countryName: country.name, tip: country.tip })
   }
 
   componentWillReceiveProps(nextProps: SuggestedTipProps) {
@@ -46,12 +47,32 @@ export default class extends React.Component<SuggestedTipProps, any> {
   }
 
   render() {
+    var rows : JSX.Element[] = []
+    Object.keys(this.state.tip).forEach(key => {
+      if (key != 'default') {
+        rows.push(<tr key={key}><td>{key}</td><td>{this.state.tip[key]}%</td></tr>);
+      }
+    })
+
     return (
-      <div>
-        <span>
+      <div style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexWrap: 'wrap',
+      }}>
+        <p>
           In <b>{this.state.countryName}</b>, the suggested tip amount is{' '}
-          <b>{this.state.tip}%</b>.
-        </span>
+          <b>{this.state.tip.default}%</b>. Other guidelines:
+        </p>
+
+        <table style={{
+          width: '50vh',
+        }}>
+          <tbody>
+            {rows}
+          </tbody>
+        </table>
       </div>
     )
   }

@@ -34,11 +34,12 @@ class DefaultLayout extends React.PureComponent<DefaultLayoutProps, any> {
     return (
       <div
         style={{
-          display: 'flex',
           alignItems: 'center',
-          justifyContent: 'center',
+          display: 'flex',
           flexWrap: 'wrap',
-          height: '80vh',
+          height: '90vh',
+          justifyContent: 'center',
+          textAlign: 'center',
         }}
       >
         <Helmet
@@ -51,11 +52,10 @@ class DefaultLayout extends React.PureComponent<DefaultLayoutProps, any> {
         <div
           style={{
             backgroundColor: '#ffffff',
-            padding: '10vh',
             border: '1px solid #000000',
-            width: '50vw',
+            padding: '5vh',
             height: '30vh',
-            textAlign: 'center',
+            width: '50vw',
           }}
         >
           {this.props.children()}
