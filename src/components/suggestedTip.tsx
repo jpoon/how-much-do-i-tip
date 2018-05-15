@@ -8,8 +8,8 @@ interface CountryToTipMap {
   name: string
   countryCode: string
   tip: {
-    restaurant: number,
-    default: number
+    restaurant: string,
+    default: string, 
   }
 }
 
@@ -27,7 +27,7 @@ export default class extends React.Component<SuggestedTipProps, any> {
     )
 
     if (!country) {
-      let errorMsg = `SuggestedTip: Unable to find country with country code: ${countryCode}`
+      let errorMsg = `Unable to find country with country code: ${countryCode}`
       console.error(errorMsg)
       this.setState({ error: errorMsg })
       return
@@ -43,14 +43,18 @@ export default class extends React.Component<SuggestedTipProps, any> {
   }
 
   componentDidMount() {
-    this._getTipForCountryCode(this.props.countryCode)
+    this._getTipForCountryCode(this.props.countryCode.toUpperCase())
   }
 
   render() {
+    if (this.state.error) {
+      return <p>{this.state.error}</p>
+    }
+
     var rows : JSX.Element[] = []
     Object.keys(this.state.tip).forEach(key => {
       if (key != 'default') {
-        rows.push(<tr key={key}><td>{key}</td><td>{this.state.tip[key]}%</td></tr>);
+        rows.push(<tr key={key}><td >{key}</td><td>{this.state.tip[key]}</td></tr>);
       }
     })
 
@@ -62,17 +66,19 @@ export default class extends React.Component<SuggestedTipProps, any> {
         flexWrap: 'wrap',
       }}>
         <p>
-          In <b>{this.state.countryName}</b>, the suggested tip amount is{' '}
-          <b>{this.state.tip.default}%</b>. Other guidelines:
+          In <b>{this.state.countryName}</b>, tipping is generally {' '} <b>{this.state.tip.default}</b>.
+          { rows.length > 0 && <span> Other guidelines:</span> }
         </p>
 
-        <table style={{
-          width: '50vh',
-        }}>
-          <tbody>
-            {rows}
-          </tbody>
-        </table>
+        {rows.length > 0 &&
+          <table style={{
+            width: '50vh',
+          }}>
+            <tbody>
+              {rows}
+            </tbody>
+          </table>
+        }
       </div>
     )
   }

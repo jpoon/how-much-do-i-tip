@@ -171,7 +171,7 @@
 		"name": "Canada",
 		"countryCode": "CA",
 		"tip": {
-			"restaurant": 15
+			"default": "15%"
 		}
 	},
 	{
@@ -312,7 +312,12 @@
 	},
 	{
 		"name": "France",
-		"countryCode": "FR"
+		"countryCode": "FR",
+		"tip": {
+			"default": "not necessary, but appreciated",
+			"restaurant": "5%",
+			"taxi": "10%"
+		}
 	},
 	{
 		"name": "French Guiana",
@@ -962,8 +967,8 @@
 		"name": "United States of America",
 		"countryCode": "US",
 		"tip": {
-			"default": 15,
-			"restaurant": 15
+			"default": "15%",
+			"restaurant": "15%"
 		}
 	},
 	{
