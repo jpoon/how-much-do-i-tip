@@ -1,9 +1,8 @@
 import * as React from 'react'
 import Link from 'gatsby-link'
 import SuggestedTip from '../components/suggestedTip'
+import fetchWithTimeout from '../util/fetchWithTimeout'
 
-// Please note that you can use https://github.com/dotansimha/graphql-code-generator
-// to generate all types from graphQL schema
 interface IndexPageProps {
   data: {
     site: {
@@ -27,7 +26,7 @@ export default class extends React.Component<IndexPageProps, any> {
 
   constructor(props: IndexPageProps) {
     super(props)
-    this.state = { countryCode: "CA" }
+    this.state = { isLoaded: false }
   }
 
   _getCurrentPosition(
@@ -50,42 +49,33 @@ export default class extends React.Component<IndexPageProps, any> {
     var url = `${this.geocode.baseUrl}?lat=${coordinates.latitude}&lng=${
       coordinates.longitude
     }&username=${this.geocode.apiKey}`
-    return fetch(url).then(response => response.json())
+    return fetchWithTimeout(url)
   }
- 
+
   componentDidMount() {
     this._getCurrentPosition()
       .then(position => this._getCountryCode(position))
       .then(location => location.countryCode)
-      .then(countryCode => this.setState({ countryCode: countryCode }))
+      .then(countryCode =>
+        this.setState({ isLoaded: true, countryCode: countryCode })
+      )
       .catch(err => {
-        this.setState({ error: err })
+        console.error(err)
+        this.setState({
+          isLoaded: true,
+          error: 'Unable to retrieve current location.',
+        })
       })
   }
 
   public render() {
+    if (!this.state.isLoaded) {
+      return <p>Grabbing your location and local tip etiquette...</p>
+    }
     if (this.state.error) {
-      return <div />
+      return <p>{this.state.error}</p>
     }
 
-    return (
-      <div style={{
-        backgroundColor: 'white',
-        padding: '12vh',
-      }}
-      >
-        <SuggestedTip countryCode={this.state.countryCode} />
-      </div>
-    )
+    return <SuggestedTip countryCode={this.state.countryCode} />
   }
 }
-
-export const pageQuery = graphql`
-  query IndexQuery {
-    site {
-      siteMetadata {
-        title
-      }
-    }
-  }
-`
