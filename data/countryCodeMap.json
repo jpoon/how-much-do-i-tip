@@ -196,7 +196,12 @@
 	},
 	{
 		"name": "China",
-		"countryCode": "CN"
+		"countryCode": "CN",
+		"tip": {
+			"default": "not expected",
+			"hotel porter": "$1 US",
+			"tour guide": "80-150RMB"
+		}
 	},
 	{
 		"name": "Christmas Island",
