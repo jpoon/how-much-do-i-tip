@@ -109,6 +109,15 @@ export default class extends React.Component<SuggestedTipProps, any> {
             {rows}
           </div>
         }
+
+        <p style={{ 
+          width: '100%', 
+          paddingTop: '30px',
+          fontSize: '12px',
+        }}
+        >
+          Inaccurate information? <a href="https://github.com/jpoon/how-much-do-i-tip/edit/master/data/countryCodeMap.json">Please help make this better</a>.
+        </p>
       </div>
     )
   }
