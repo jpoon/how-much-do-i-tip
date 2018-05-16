@@ -199,7 +199,6 @@
 		"countryCode": "CN",
 		"tip": {
 			"default": "not expected",
-			"hotel porter": "$1 US",
 			"tour guide": "80-150RMB"
 		}
 	},
@@ -418,7 +417,12 @@
 	},
 	{
 		"name": "Hong Kong",
-		"countryCode": "HK"
+		"countryCode": "HK",
+		"tip": {
+			"default": "not necessary, but appreciated",
+			"restaurant": "round up to next dollar",
+			"tour guide": "$10 per person"
+		}
 	},
 	{
 		"name": "Hungary",
@@ -906,7 +910,12 @@
 	},
 	{
 		"name": "Tanzania, United Republic of",
-		"countryCode": "TZ"
+		"countryCode": "TZ",
+		"tip": {
+			"default": "expected for foreigners",
+			"restaurant": "5%",
+			"tour guide": ""
+		}
 	},
 	{
 		"name": "Thailand",
@@ -966,14 +975,19 @@
 	},
 	{
 		"name": "United Kingdom of Great Britain and Northern Ireland",
-		"countryCode": "GB"
+		"countryCode": "GB",
+		"tip": {
+			"default": "not necessary, but appreciated",
+			"restaurant": "10%",
+			"taxi": "round up to the nearest dollar"
+		}
 	},
 	{
 		"name": "United States of America",
 		"countryCode": "US",
 		"tip": {
 			"default": "15%",
-			"restaurant": "15-20%",
+			"restaurant": "15-20%"
 		}
 	},
 	{
