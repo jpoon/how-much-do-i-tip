@@ -37,9 +37,10 @@ class DefaultLayout extends React.PureComponent<DefaultLayoutProps, any> {
           alignItems: 'center',
           display: 'flex',
           flexWrap: 'wrap',
-          height: '90vh',
           justifyContent: 'center',
           textAlign: 'center',
+          height: '80vh',
+          overflow: 'auto',
         }}
       >
         <Helmet
@@ -54,7 +55,6 @@ class DefaultLayout extends React.PureComponent<DefaultLayoutProps, any> {
             backgroundColor: '#ffffff',
             border: '1px solid #000000',
             padding: '5vh',
-            height: '30vh',
             width: '50vw',
           }}
         >

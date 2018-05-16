@@ -55,10 +55,10 @@ export default class extends React.Component<SuggestedTipProps, any> {
     Object.keys(this.state.tip).forEach(key => {
       if (key != 'default') {
         rows.push(
-          <tr key={key}>
-            <td>{key}</td>
-            <td>{this.state.tip[key]}</td>
-          </tr>
+          <div className="tr" key={key}>
+            <div className="td">{key}</div>
+            <div className="td">{this.state.tip[key]}</div>
+          </div>
         )
       }
     })
@@ -75,18 +75,19 @@ export default class extends React.Component<SuggestedTipProps, any> {
         <p>
           In <b>{this.state.countryName}</b>, tipping is generally{' '}
           <b>{this.state.tip.default}</b>.
-          {rows.length > 0 && <span> Other guidelines:</span>}
         </p>
 
-        {rows.length > 0 && (
-          <table
-            style={{
-              width: '50vh',
-            }}
-          >
-            <tbody>{rows}</tbody>
-          </table>
-        )}
+        {rows.length > 0 &&
+          <div className="table" style={{
+            width: '100%'
+          }}>
+            <div className="tr th">
+              <div className="td">Other Guidelines:</div>
+              <div className="td"></div>
+            </div>
+            {rows}
+          </div>
+        }
       </div>
     )
   }
