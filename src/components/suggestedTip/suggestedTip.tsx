@@ -1,4 +1,5 @@
 import * as React from 'react'
+import "./suggestedTip.css";
 
 interface SuggestedTipProps {
   countryCode: string
@@ -14,7 +15,7 @@ interface CountryToTipMap {
 }
 
 export default class extends React.Component<SuggestedTipProps, any> {
-  countryCodeMap: CountryToTipMap[] = require('../../data/countryCodeMap.json')
+  countryCodeMap: CountryToTipMap[] = require('../../../data/countryCodeMap.json')
 
   constructor(props: SuggestedTipProps) {
     super(props)

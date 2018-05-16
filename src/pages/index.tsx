@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Link from 'gatsby-link'
-import SuggestedTip from '../components/suggestedTip'
+import SuggestedTip from '../components/suggestedTip/suggestedTip'
 import getCountryCode from '../util/getCountryCode'
 let qs = require('qs')
 
