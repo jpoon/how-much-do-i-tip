@@ -52,6 +52,26 @@ export default class extends React.Component<SuggestedTipProps, any> {
       return <p>{this.state.error}</p>
     }
 
+    if (!this.state.tip) {
+      return (
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexWrap: 'wrap',
+          }}
+        >
+          <p style={{ width: '100%' }}>
+            We don't have information on <b>{this.state.countryName}</b>.
+          </p>
+          <p style={{ width: '100%' }}>
+            <a href="https://github.com/jpoon/how-much-do-i-tip/edit/master/data/countryCodeMap.json">Please help make this better</a>.
+          </p>
+        </div>
+      )
+    }
+
     var rows: JSX.Element[] = []
     Object.keys(this.state.tip).forEach(key => {
       if (key != 'default') {
